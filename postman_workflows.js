@@ -1,6 +1,5 @@
 //This iControlLX Extension will run pre-installed POSTMAN collections.
 var logger = require('f5-logger').getInstance();
-//var host = require('os').hostname();
 var fs = require('fs');
 var newman = require('newman');
 
@@ -45,57 +44,48 @@ postman_workflows.prototype.onPost = function(restOperation) {
 
   logger.info('workflow_file: ' +newState.workflow_file);
   logger.info('action: ' +newState.action);
-
-// Lets test environment variable here
-
-  var env = {
-    values: [
-      {
-        enabled: true,
-        key: "iWorkflow1_Mgmt_IP",
-        value: "192.168.202.162",
-        type: "text"
-      },
-      {
-        enabled: true,
-        key: "tenant_username",
-        value: "user1",
-        type: "text"
-      },
-      {
-        enabled: true,
-        key: "tenant_password",
-        value: "admin",
-        type: "text"
-      }
-    ]
-  };
-
-  logger.info('env: ' +JSON.stringify(env));
+  logger.info('environment: ' +JSON.stringify(newState.environment,' ', '\t'));
 
 // Is this new settings or is it from the iWorkflow subscription
   if (typeof newState.action !==  'undefined' && newState.action) {
     if (newState.action == 'execute') {
-      newman.execute({
+      newman.run({
         collection: require('/usr/share/rest/node/src/workers/postman_workflows/workflows/' +newState.workflow_file),
-        environment: env,
-        outputFile: "/var/log/restnoded/outfile.json",
+        environment: newState.environment,
+//        outputFile: "/var/log/newman_outfile.json", <- does not work via iControlLX
         reporters: 'cli',
-        asLibrary: true,
-        stopOnError: true
-      }, function (err) {
+        insecure: true
+      })
+      .on('start', function(err, start_summary) {
         if (err) {
-          logger.info('postman_workflows workflow error: ' +err);
-          throw err;
-          }
-        logger.info('postman_workflows workflow executed');
+          logger.info('postman_workflows on start error: ' +err);
+          restOperation.setBody(err);
+          postman_workflows.prototype.completeRestOperation(restOperation);
+        }
+        else {
+          logger.info('newman.run.on.start - summary: ' +JSON.stringify(start_summary, ' ', '\t'));
+          restOperation.setBody(start_summary);
+          postman_workflows.prototype.completeRestOperation(restOperation);
+        }
+      })
+      .on('done', function (err, done_summary) {
+        if (err) {
+          logger.info('postman_workflows on done error: ' +err);
+//          restOperation.setBody(err);
+//          postman_workflows.prototype.completeRestOperation(restOperation);
+        }
+        else {
+//          logger.info('newman.run.on.done - summary: ' +JSON.stringify(done_summary, ' ', '\t'));
+          logger.info('newman.run.on.done');
+//          restOperation.setBody(done_summary);
+//          postman_workflows.prototype.completeRestOperation(restOperation);
+        }
       });
 
-    }   //This message includes 'slack' settings
-    this.state = newState;
+    }
   }
-  restOperation.setBody(this.state);
-  this.completeRestOperation(restOperation);
+//  restOperation.setBody(this.state);
+//  this.completeRestOperation(restOperation);
 };
 
 module.exports = postman_workflows;
