@@ -84,8 +84,6 @@ postman_workflows.prototype.onPost = function(restOperation) {
 
     }
   }
-//  restOperation.setBody(this.state);
-//  this.completeRestOperation(restOperation);
 };
 
 module.exports = postman_workflows;

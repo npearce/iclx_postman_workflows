@@ -1,6 +1,6 @@
 {
 	"id": "387b612c-a399-5d1e-497b-cba7cbf738c8",
-	"name": "ilxe_postman_workflows",
+	"name": "ilxe_postman_workflows-list_services",
 	"description": "Testing execution of POSTMAN workflow on F5 iWorkflow using newman, via an iControlLX extension. ",
 	"order": [
 		"83478a93-1b5f-b226-fc52-0ed01db88ac6",
