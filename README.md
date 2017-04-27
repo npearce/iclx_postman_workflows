@@ -1,12 +1,16 @@
 # ilx_postman_workflows
 
 ## About
+This is an example iControlLX worker that enables the execution of POSTMAN collections via the iWorkflow iControl REST API.
+
+iControlLX (iControl Language eXtension) extensions support bespoke functionality and workflows within the iControl REST API.
 
 ### To view the available workflows:
-GET /mgmt/shared/postman_workflows
+```GET /mgmt/shared/postman_workflows```
 
 Response should look like the following (NOTE: with example input requirements):
 
+```
 {
   "items": [
     {
@@ -28,10 +32,12 @@ Response should look like the following (NOTE: with example input requirements):
       }
     }
   ]
-}
+}```
 
 
 ### To execute a POSTMAN workflow
+
+```
 POST /mgmt/shared/postman_workflows
 
 {
@@ -67,3 +73,4 @@ POST /mgmt/shared/postman_workflows
 	]  	
   }
 }
+```
