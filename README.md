@@ -6,7 +6,7 @@ This is an example iControlLX worker that enables the execution of POSTMAN colle
 iControlLX (iControl Language eXtension) extensions support bespoke functionality and workflows within the iControl REST API.
 
 ### To view the available workflows:
-```GET /mgmt/shared/postman_workflows```
+```GET /mgmt/shared/festivus```
 
 Response should look like the following (NOTE: with example input requirements):
 
@@ -39,7 +39,7 @@ Response should look like the following (NOTE: with example input requirements):
 ### To execute a POSTMAN workflow
 
 ```
-POST /mgmt/shared/postman_workflows
+POST /mgmt/shared/festivus
 
 {
   "name": "ilxe_postman_workflows-list_services",
@@ -63,12 +63,6 @@ POST /mgmt/shared/postman_workflows
         "enabled": "true",
         "key": "tenant_password",
         "value": "<password>",
-        "type": "text"
-      },
-      {
-        "enabled": "true",
-        "key": "tenant_name",
-        "value": "<tenant_name>",
         "type": "text"
       }
     ]  	

@@ -1,21 +1,23 @@
 {
   "items": [
     {
-    "name": "ilxe_postman_workflows-list_services",
-    "workflow_file": "ilxe_postman_workflows-list_services.postman_collection.json",
+    "name": "ilxe_postman_workflows-list_tenants",
+    "workflow_file": "ilxe_postman_workflows-list_tenants.postman_collection.json",
     "inputs": {
-      "iWorkflow1_Mgmt_IP":"x.x.x.x",
-      "tenant_username":"user1",
-      "tenant_password":"password"
+      "iWorkflow1_Mgmt_IP":"<x.x.x.x>",
+      "tenant_username":"<username>",
+      "tenant_password":"<password>"
       }
     },
     {
-    "name": "other_workflow",
-    "workflow_file": "ilxe_postman_workflows-list_services.postman_collection.json",
+    "name": "EXAMPLE-other_workflow",
+    "workflow_file": "other.postman_collection.json",
     "inputs": {
       "iWorkflow1_Mgmt_IP":"x.x.x.x",
-      "tenant_username":"user1",
-      "tenant_password":"password"
+      "tenant_username":"<username>",
+      "tenant_password":"<password>",
+      "other_property1":"<value>",
+      "other_property2":"<value>"
       }
     }
   ]

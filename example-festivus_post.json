@@ -1,0 +1,27 @@
+{
+  "name": "ilxe_postman_workflows-list_tenants",
+  "workflow_file": "ilxe_postman_workflows-list_tenants.postman_collection.json",
+  "action": "execute",
+  "environment": {
+    "values": [
+      {
+        "enabled": "true",
+        "key": "iWorkflow1_Mgmt_IP",
+        "value": "172.16.45.129",
+        "type": "text"
+      },
+      {
+        "enabled": "true",
+        "key": "tenant_username",
+        "value": "user1",
+        "type": "text"
+      },
+      {
+        "enabled": "true",
+        "key": "tenant_password",
+        "value": "admin",
+        "type": "text"
+      }
+    ]
+  }
+}

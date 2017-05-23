@@ -1,0 +1,73 @@
+{
+	"id": "387b612c-a399-5d1e-497b-cba7cbf738c8",
+	"name": "ilxe_postman_workflows",
+	"description": "POSTMAN collection for obtaining a users Tenant assignments. ",
+	"order": [
+		"83478a93-1b5f-b226-fc52-0ed01db88ac6",
+		"2f993a21-c975-1f03-29ee-2b8c932b9e87",
+		"a730201d-5982-4b39-d01b-c58911bcd0d1"
+	],
+	"folders": [],
+	"timestamp": 0,
+	"owner": "720937",
+	"public": false,
+	"requests": [
+		{
+			"folder": null,
+			"id": "2f993a21-c975-1f03-29ee-2b8c932b9e87",
+			"name": "Increase Auth Token Timeout",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": null,
+			"description": "",
+			"headers": "X-F5-Auth-Token: {{iWorkflow1_Auth_Token}}\nContent-Type: application/json\n",
+			"method": "PATCH",
+			"pathVariables": {},
+			"url": "https://{{iWorkflow1_Mgmt_IP}}/mgmt/shared/authz/tokens/{{iWorkflow1_Auth_Token}}",
+			"preRequestScript": null,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar respData = JSON.parse(responseBody);\ntests[\"Auth Token timeout is: \" +respData.timeout] = respData.timeout;\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": null,
+			"headerData": null,
+			"pathVariableData": null,
+			"collectionId": "387b612c-a399-5d1e-497b-cba7cbf738c8",
+			"rawModeData": "{\n    \"timeout\":\"36000\"\n}"
+		},
+		{
+			"id": "83478a93-1b5f-b226-fc52-0ed01db88ac6",
+			"headers": "Content-Type: application/json\n",
+			"url": "https://{{iWorkflow1_Mgmt_IP}}/mgmt/shared/authn/login",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var respData = JSON.parse(responseBody);\n\ntests[\"response has token: \" +respData.token.token] = respData.token.token;\n\npostman.setEnvironmentVariable('iWorkflow1_Auth_Token',respData.token.token);\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495125471275,
+			"name": "Request a Tenant Token from iWorkflow",
+			"description": "Request a token from the iWorkflow platform.",
+			"collectionId": "387b612c-a399-5d1e-497b-cba7cbf738c8",
+			"rawModeData": "{\n  \"username\": \"{{tenant_username}}\",\n  \"password\": \"{{tenant_password}}\",\n  \"loginProvidername\": \"tmos\"\n}"
+		},
+		{
+			"id": "a730201d-5982-4b39-d01b-c58911bcd0d1",
+			"headers": "X-F5-Auth-Token: {{iWorkflow1_Auth_Token}}\n",
+			"url": "https://{{iWorkflow1_Mgmt_IP}}/mgmt/shared/authz/roles?$select=displayName&$filter=displayName%20eq%20%27*Cloud*%27",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "var respData = JSON.parse(responseBody);\nvar count = respData.items.length;\n\n// if there are more than zero connectors\nif (count !== 0) {\n    // for each connector, create Postman env var. Store Connector displayName in the var name and the connectorID as the value.\n    for (var i = 0; i < count; i++) {\n        var myName = JSON.stringify(respData.items[i].displayName);\n        tests[\"Member of: \" +myName] = myName;\n    }\n}\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495228360380,
+			"name": "List Tenant Memberships",
+			"description": "",
+			"collectionId": "387b612c-a399-5d1e-497b-cba7cbf738c8"
+		}
+	]
+}
