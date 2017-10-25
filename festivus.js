@@ -54,16 +54,18 @@ festivus.prototype.onPost = function(restOperation) {
         reporters: 'cli',
         insecure: true
       })
-      .on('done', function (err, done) {
+      .on('done', function (err, summary) {
         if (err) {
           logger.info('No festivus for anyovus: ' +err);
           restOperation.setBody(err);
           festivus.prototype.completeRestOperation(restOperation);
         }
         else {
-//          logger.finest('newman.run.on.done - summary: ' +JSON.stringify(done, ' ', '\t'));
+//          logger.info('newman.run.on.done - summary: ' +JSON.stringify(done, ' ', '\t'));   // ALL of the data....
           logger.info('A \'festivus\' for the restivus....');
-          restOperation.setBody(done);
+          restOperation.setBody(summary.run);
+//          restOperation.setBody(summary.run.stats);   //Other levels of details
+//          restOperation.setBody(summary.run.executions);   //Other levels of details
           festivus.prototype.completeRestOperation(restOperation);
         }
       });
